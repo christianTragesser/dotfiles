@@ -1,0 +1,16 @@
+[alias]
+[core]
+    editor = vim
+[diff]
+	wsErrorHighlight = all
+[init]
+	defaultBranch = main
+[pull]
+	rebase = true
+[push]
+	autoSetupRemote = true
+[rebase]
+	autostash = true
+[user]
+	name = Christian Tragesser
+	email = 
