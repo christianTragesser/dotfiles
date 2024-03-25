@@ -20,7 +20,6 @@ function install_vscode_extensions() {
     code --install-extension bierner.markdown-preview-github-styles
     code --install-extension golang.go
     code --install-extension ms-python.python
-    code --install-extension 4ops.terraform
 }
 
 if [[ "${PLATFORM}" == 'Linux' ]]; then
@@ -51,6 +50,16 @@ if [[ "${PLATFORM}" == 'Linux' ]]; then
                 $(go env GOPATH)/bin/golangci-lint version
             fi
 
+            # Install kubectl
+            if ! kubectl version &>/dev/null; then
+                curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+                sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+                kubectl version --client --output=yaml
+            else
+                printf "\nFound kubectl client.\n"
+                kubectl version --client --output=yaml
+            fi
+
             # Install KIND
             if ! kind version &>/dev/null; then
                 curl -Lo ./kind https://kind.sigs.k8s.io/dl/v${KIND_VERSION}/kind-linux-amd64
@@ -63,6 +72,7 @@ if [[ "${PLATFORM}" == 'Linux' ]]; then
             fi
 
             install_vscode_extensions
+            code --install-extension codeium.codeium
             cp ./config/Code/User/keybindings.json ~/.config/Code/User/
 
             gsettings set org.gnome.desktop.sound event-sounds false
@@ -92,6 +102,7 @@ elif [[ "${PLATFORM}" == 'Darwin' ]]; then
     brew install colima
 
     install_vscode_extensions
+    code --install-extension 4ops.terraform
     cp ./config/Code/User/keybindings.json ~/Library/Application Support/Code/User/
 else
     printf "\nThis script does not support ${PLATFORM} systems.\n"
