@@ -36,7 +36,6 @@ if [[ "${PLATFORM}" == 'Linux' ]]; then
 
             sudo dnf install -y code curl fedora-workstation-repositories flatpak git golang gnome-tweaks helm htop jq podman vim
 
-            sudo flatpak remote-add --if-not-exists flathub
             sudo flatpak install flathub com.google.Chrome -y
 
             ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -N ''
