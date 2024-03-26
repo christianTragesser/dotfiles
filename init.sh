@@ -72,7 +72,7 @@ if [[ "${PLATFORM}" == 'Linux' ]]; then
 
             install_vscode_extensions
             code --install-extension codeium.codeium
-            cp ./config/Code/User/keybindings.json ~/.config/Code/User/
+            cp ./config/Code/User/*.json ~/.config/Code/User/
 
             gsettings set org.gnome.desktop.sound event-sounds false
 
