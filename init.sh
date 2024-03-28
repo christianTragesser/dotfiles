@@ -59,6 +59,24 @@ if [[ "${PLATFORM}" == 'Linux' ]]; then
                 kubectl version --client --output=yaml
             fi
 
+            # Install Krew and kubectl plugins
+            if ! kubectl krew version &>/dev/null; then
+                set -x; cd "$(mktemp -d)" &&
+                OS="$(uname | tr '[:upper:]' '[:lower:]')" &&
+                ARCH="$(uname -m | sed -e 's/x86_64/amd64/' -e 's/\(arm\)\(64\)\?.*/\1\2/' -e 's/aarch64$/arm64/')" &&
+                KREW="krew-${OS}_${ARCH}" &&
+                curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/${KREW}.tar.gz" &&
+                tar zxvf "${KREW}.tar.gz" &&
+                ./"${KREW}" install krew
+                export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
+                kubectl krew install oidc-login
+            else
+                printf "\nFound kubectl Krew.\n"
+                kubectl krew version
+            fi
+
+
             # Install KIND
             if ! kind version &>/dev/null; then
                 curl -Lo ./kind https://kind.sigs.k8s.io/dl/v${KIND_VERSION}/kind-linux-amd64
