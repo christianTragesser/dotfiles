@@ -111,16 +111,20 @@ elif [[ "${PLATFORM}" == 'Darwin' ]]; then
     if ! brew --version &>/dev/null; then
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     fi
-    brew install awscli azure-cli docker docker-credential-helper git go golangci-lint goreleaser helm jq kind kubectl \
-        terraform-docs tfenv tflint watch yq
+    brew install awscli azure-cli docker docker-credential-helper git go golangci-lint goreleaser helm \
+        int128/kubelogin/kubelogin jq kind kubectl terraform-docs tfenv tflint watch yq
 
     brew install --cask iterm2 slack visual-studio-code
 
     brew install colima
 
+    ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -N ''
+
     install_vscode_extensions
     code --install-extension 4ops.terraform
-    cp ./config/Code/User/keybindings.json ~/Library/Application Support/Code/User/
+    cp ./config/Code/User/*.json ~/Library/Application Support/Code/User/
+
+    cp ./.gitconfig ~/.gitconfig
 else
     printf "\nThis script does not support ${PLATFORM} systems.\n"
 fi
