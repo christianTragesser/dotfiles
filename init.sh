@@ -34,7 +34,7 @@ if [[ "${PLATFORM}" == 'Linux' ]]; then
 
             sudo dnf update
 
-            sudo dnf install -y code curl fedora-workstation-repositories flatpak git golang gnome-tweaks helm htop jq podman vim
+            sudo dnf install -y code curl fedora-workstation-repositories flatpak git golang gnome-tweaks helm hplip htop jq podman vim
 
             sudo flatpak install flathub com.google.Chrome -y
 
